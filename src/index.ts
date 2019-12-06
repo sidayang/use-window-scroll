@@ -11,10 +11,16 @@ export const useWindowScroll = (wait = 15) => {
     scrollX: 0,
     scrollY: 0
   });
+  const setScrollPosition = React.useCallback(() => {
+    const { scrollX, scrollY } = window;
+    setPosition({ scrollX, scrollY });
+  }, []);
+  React.useEffect(() => {
+    setScrollPosition();
+  }, []);
   const scrollHandler = React.useCallback(
     throttle((e: Event) => {
-      const { scrollX, scrollY } = window;
-      setPosition({ scrollX, scrollY });
+      setScrollPosition();
     }, wait),
     [wait]
   );
